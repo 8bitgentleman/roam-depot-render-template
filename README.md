@@ -1,4 +1,4 @@
-Tempalte for Roam Depot Plugins
+Template for Roam Depot Plugins
 Roam Research extension template
 
 ## Setup 
