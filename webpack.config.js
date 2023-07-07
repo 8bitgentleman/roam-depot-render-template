@@ -16,4 +16,16 @@ module.exports = {
         outputModule: true,
     },
     mode: "production",
+    module: {
+        rules: [
+            {
+            test: /\.cljs$/,
+            use: 'text-loader',
+            },
+          {
+            test: /\.css$/,
+            use: 'css-loader',
+          },
+        ],
+      },
 };

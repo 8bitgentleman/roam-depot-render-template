@@ -1,42 +1,41 @@
-const panelConfig = {
-  tabTitle: "Test Ext 1",
-  settings: [
-      {id:          "button-setting",
-       name:        "Button test",
-       description: "tests the button",
-       action:      {type:    "button",
-                     onClick: (evt) => { console.log("Button clicked!"); },
-                     content: "Button"}},
-      {id:          "switch-setting",
-       name:        "Switch Test",
-       description: "Test switch component",
-       action:      {type:     "switch",
-                     onChange: (evt) => { console.log("Switch!", evt); }}},
-      {id:     "input-setting",
-       name:   "Input test",
-       action: {type:        "input",
-                placeholder: "placeholder",
-                onChange:    (evt) => { console.log("Input Changed!", evt); }}},
-      {id:     "select-setting",
-       name:   "Select test",
-       action: {type:     "select",
-                items:    ["one", "two", "three"],
-                onChange: (evt) => { console.log("Select Changed!", evt); }}}
-  ]
-};
+import { toggleRenderComponent } from "./entry-helpers";
 
-async function onload({extensionAPI}) {
-  // set defaults if they dont' exist
-  if (!extensionAPI.settings.get('data')) {
-      await extensionAPI.settings.set('data', "01");
-  }
+const componentName = 'NAME'
+const codeBlockUID = 'roam-render-tidy-NAME-cljs';
+const cssBlockUID = 'roam-render-tidy-NAME-css';
+const renderString = `{{[[roam/render]]:((${codeBlockUID}))`;
+const replacementString = '{{NAME}}';
+const version = 'v1';
+const titleblockUID = 'roam-render-NAME';
+const cssBlockParentUID = 'NAME-css-parent';
+
+function onload({extensionAPI}) {
+  const panelConfig = {
+    tabTitle: componentName,
+    settings: [
+        // {id:		  "strikethrough",
+        //   name:		"Strikethrough DONE tasks",
+        //   description: "Adds CSS to strike through DONE tasks",
+        //   action:	  {type:	 "switch",
+        //                 onChange: (evt) => { 
+        //                   // toggleStrikethroughCSS(evt.target.checked); 
+        //                   console.log("toggle strikethrough CSS!", evt.target.checked); }}}
+    ]
+  };
+
   extensionAPI.settings.panel.create(panelConfig);
 
-  console.log("load example plugin");
+  if (!roamAlphaAPI.data.pull("[*]", [":block/uid", titleblockUID])) {
+    // component hasn't been loaded so we add it to the graph
+    toggleRenderComponent(true, titleblockUID, cssBlockParentUID, version, renderString, replacementString, cssBlockUID, codeBlockUID, componentName)
+  }
+
+  console.log(`load ${componentName} plugin`)
 }
 
 function onunload() {
-  console.log("unload example plugin");
+  console.log(`unload ${componentName} plugin`)
+  toggleRenderComponent(false, titleblockUID, cssBlockParentUID, version, renderString, replacementString, cssBlockUID, codeBlockUID, componentName)
 }
 
 export default {
