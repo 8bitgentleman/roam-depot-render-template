@@ -1,13 +1,13 @@
 import { toggleRenderComponent } from "./entry-helpers";
 
-const componentName = 'NAME'
-const codeBlockUID = 'roam-render-tidy-NAME-cljs';
-const cssBlockUID = 'roam-render-tidy-NAME-css';
+const componentName = 'NAME' // keep this short
+const codeBlockUID = `roam-render-${componentName}-cljs`;
+const cssBlockUID = `roam-render-${componentName}-css`;
 const renderString = `{{[[roam/render]]:((${codeBlockUID}))`;
-const replacementString = '{{NAME}}';
+const replacementString = `{{${componentName}}}`;
 const version = 'v1';
-const titleblockUID = 'roam-render-NAME';
-const cssBlockParentUID = 'NAME-css-parent';
+const titleblockUID = `roam-render-${componentName}`;
+const cssBlockParentUID = `${componentName}-css-parent`;
 
 function onload({extensionAPI}) {
   const panelConfig = {
